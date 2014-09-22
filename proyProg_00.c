@@ -45,10 +45,10 @@ void sinEspacios(char *cad)
             }
             for(i=0 ; *(cad+i) != '\0'; i++)
             {
-                if(*(cad+i+spc) != '\0' || *(cad+i+spc) != 32)
+                if(*(cad+i+spc) != '\0' && *(cad+i+spc) != 32)
                 *(cad+i) = *(cad+i+spc);
                 else
-                 *(cad+i) = '\0';
+                *(cad+i) = '\0';
             }
         }
 }
@@ -65,26 +65,61 @@ void formatoNmb(char *cad)
     }
 }
 
+int eMail(char *cad)
+{
+	int i,punt=0;
+    if( *(cad) == '@')
+        return 1;
+	for(i=0; *(cad+i) != '\0' ; i++)
+	{
+		if(*(cad+i) == ' ' || *(cad+i) == ':')
+			{return 1;}
+		if( *(cad+i) == '@')
+		{
+			i++;
+			if( *(cad+i) == '.')
+				{return 1;}
+			for(; *(cad+i) != '\0' ; i++)
+			{
+				if(*(cad+i) == '.' )
+				{
+                    if( *(cad+i+1) == '\0')
+                            return 1;
+					punt++;
+					if(punt > 2)
+						{return 1;}
+					if( *(cad+i+1) == '.' && *(cad+i+1) != '\0')
+						{return 1;}
+				}
+			}
+            if( punt == 0)
+                    return 1;
+			break;
+		}
+
+	}
+	return 0;
+}
 
 int main()
 {
 	char numCuenta[9],des[2];
-	char pNombre[20],apellidoM[10],apellidoP[10];
+	char pNombre[25],apellidoM[15],apellidoP[15],mail[50];
 	fflush(stdin);
-	do
+	/*do
 	{
 		printf("\nIngrese Numero de Cuenta ... ");
 		gets(numCuenta);
 	}
-	while(soloNumeros(numCuenta) == 1 );
+	while(soloNumeros(numCuenta) == 1 );*/
 	do
-    {
-		printf("\nIngresa tu nombre\nsi tienes dos separalos con un  _  ... ");
+   	{
+		printf("\nIngresa tu nombre\nsi tienes dos separalos con un  espacio  ... ");
 		gets(pNombre);
 	}
 	while(soloLetras(pNombre) == 1);
 
-	do
+	/*do
 	{
 		printf("\nIngresa tu apellido Paterno ... ");
 		gets(apellidoP);
@@ -95,11 +130,20 @@ int main()
                 printf("\nIngresa tu apellido Materno ... ");
                 gets(apellidoM);
         }
-    while(soloLetras(apellidoM) == 1);
+   	while(soloLetras(apellidoM) == 1);
+	do
+	{
+		printf("\nIngresa tu e-mail\n");
+		gets(mail);
+		if( eMail(mail) == 1)
+		printf("\n email no valido, de nuevo , la regaste :/ \n ");
+	}
+	while(eMail(mail) == 1 );
     sinEspacios(pNombre);
-    formatoNmb(pNombre);
+    formatoNmb(pNombre);*/
 
         printf(" %s  --  |%s| |%s| |%s| ",numCuenta,pNombre,apellidoP,apellidoM);
+        printf("\n |%s| ",mail);
 
 
 
